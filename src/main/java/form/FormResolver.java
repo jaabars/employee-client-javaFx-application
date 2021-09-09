@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class FormResolver {
-    public void openForm(String path){
+    public FXMLLoader openForm(String path){
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
         try {
@@ -16,9 +16,10 @@ public class FormResolver {
             Parent root = loader.getRoot();
             stage.setScene(new Scene(root));
             stage.show();
+            return loader;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return null;
     }
 }

@@ -9,4 +9,6 @@ import java.util.List;
 public interface HttpClient {
     HttpClient INSTANCE = new HttpClientImpl();
     List<Position> getAllPositions();
+
+    Position savePosition(Position position);
 }
