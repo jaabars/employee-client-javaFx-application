@@ -11,7 +11,8 @@ public class Employee {
 
     private Long id;
     private String name;
-    private String status;
+    private String employeeStatus;
+    ;
     private Position position;
 
 }

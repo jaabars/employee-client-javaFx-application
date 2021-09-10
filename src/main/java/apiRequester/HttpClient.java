@@ -11,4 +11,8 @@ public interface HttpClient {
     List<Position> getAllPositions();
 
     Position savePosition(Position position);
+
+    List<Employee> getEmployees();
+
+    Employee saveEmployee(Employee employee);
 }

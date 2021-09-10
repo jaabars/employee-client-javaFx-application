@@ -22,4 +22,18 @@ public class FormResolver {
         }
         return null;
     }
+    public Stage openFormStage(String path){
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+        try {
+            loader.load();
+            Parent root = loader.getRoot();
+            stage.setScene(new Scene(root));
+            stage.show();
+            return stage;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

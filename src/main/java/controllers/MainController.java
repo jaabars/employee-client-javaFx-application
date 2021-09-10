@@ -1,10 +1,12 @@
 package controllers;
 
+import apiRequester.HttpClient;
 import form.FormResolver;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import models.Employee;
 import models.Position;
 
@@ -62,6 +65,15 @@ public class MainController {
     void onMenuItemClicked(ActionEvent event) {
         if (event.getSource().equals(mntPosition)){
             formResolver.openForm("../views/position.fxml");
+        }else if (event.getSource().equals(mntAddEmployee)){
+            Stage stage = formResolver.openFormStage("../views/employeeAddEdit.fxml");
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+                    tblEmployees.refresh();
+                    initTableView();
+                }
+            });
         }
     }
 
@@ -75,23 +87,14 @@ public class MainController {
     }
 
     private void initTableView() {
-        List<Employee> employeeList =  new ArrayList<>();
-        Position position = new Position(1l,"Sb",true);
-        employeeList.add(new Employee(1l,"Max","Работет",position));
-        employeeList.add(new Employee(1l,"Max","Работет",position));
-        employeeList.add(new Employee(1l,"Max","Работет",position));
-        employeeList.add(new Employee(1l,"Max","Работет",position));
-        employeeList.add(new Employee(1l,"Max","Работет",position));
-        employeeList.add(new Employee(1l,"Max","Работет",position));
-        employeeList.add(new Employee(1l,"Max","Работет",position));
-        employeeList.add(new Employee(1l,"Max","Работет",position));
+        List<Employee> employeeList = HttpClient.INSTANCE.getEmployees();
         tblEmployees.setItems(FXCollections.observableArrayList(employeeList));
     }
 
     private void initColumnProperties() {
         colmnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colmnName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colmnStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        colmnStatus.setCellValueFactory(new PropertyValueFactory<>("employeeStatus"));
         colmnPosition.setCellValueFactory(colmn->new SimpleStringProperty(colmn.getValue().getPosition().getName()));
     }
 }
